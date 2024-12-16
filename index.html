@@ -6,53 +6,142 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Welcome to Solars Games</title>
     <style>
+        /* Body styling with a background image */
         body {
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-image: url('images/Background.png'); /* Load Background.png */
+            background-size: cover; /* Ensure the image covers the entire viewport */
+            background-repeat: no-repeat; /* Prevent tiling */
+            background-position: center; /* Center the image */
             font-family: Arial, sans-serif;
-            text-align: center;
-            margin: 20px;
+            overflow: hidden;
         }
-        h1 {
-            color: #333;
+
+        /* Container for game boxes */
+        .game-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow-x: auto;
+            width: 100%;
+            height: 100%;
+            scroll-snap-type: x mandatory;
+            padding: 0 50px;
         }
-        p {
-            font-size: 1.1em;
-            color: #555;
-        }
-        .launch-button {
-            padding: 10px 20px;
-            font-size: 1em;
-            background-color: #007bff;
-            color: #fff;
+
+        /* Individual game box styling */
+        .game-box {
+            background-color: #000; /* Fallback background */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 275px; /* Increased box height */
+            width: 275px; /* Increased box width */
+            border-radius: 10px; /* Rounded corners */
             text-decoration: none;
-            border-radius: 5px;
-            display: inline-block;
-            margin-top: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            transition: transform 0.2s, box-shadow 0.2s;
+            overflow: hidden; /* Ensures images fit within the box */
+            scroll-snap-align: center;
+            margin: 0 10px;
         }
-        .launch-button:hover {
-            background-color: #0056b3;
+
+        /* Image styling for game boxes */
+        .game-box img {
+            width: 100%; /* Make images fill the box */
+            height: 100%;
+            object-fit: cover; /* Ensure images cover the box properly */
         }
-        .button-container {
-            margin-top: 30px;
+
+        .selected {
+            transform: scale(1.25); /* Make the center box larger */
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.4);
         }
     </style>
 </head>
 
 <body>
-    <h1>Welcome to Solars Games</h1>
-    <p>
-        Solars Games, originally on Google Sites, was remade here to better support 3D games and games that might not work on Google Sites.
-    </p>
-    <div class="button-container">
-        <!-- Button for Cookie Clicker -->
-        <a href="games/cookieclicker/index.html" class="launch-button">Launch cookieclicker</a>
-        <!-- Button for MC LOL -->
-        <a href="games/minecraft/index.html" class="launch-button">Launch Minecraft</a>
-         <!-- Button for Baldis Basics-->
-        <a href="games/Baldi-master/index.html" class="launch-button">Launch Baldis Basics</a>
-        <!-- Button for Baldis Basics-->
-        <a href="games/subwaysurfers/index.html" class="launch-button">Launch Subway Surfers</a>
-    
+    <div class="game-container" id="gameContainer">
+        <a href="games/minecraft/index.html" class="game-box" id="game1">
+            <img src="images/Minecraft.png" alt="Minecraft">
+        </a>
+        <a href="games/Baldi-master/index.html" class="game-box" id="game2">
+            <img src="images/baldi.png" alt="Baldi">
+        </a>
+        <a href="games/cookieclicker/index.html" class="game-box" id="game3">
+            <img src="images/cookieclicker.png" alt="Cookie Clicker">
+        </a>
+        <a href="games/subwaysurfers/index.html" class="game-box" id="game4">
+            <img src="images/Subwaysurfers.png" alt="Subway Surfers">
+        </a>
+        <a href="games/SRB2/index.html" class="game-box" id="game5">
+            <img src="images/SRB2.png" alt="Sonic Robo Blast 2">
+        </a>
+        <a href="games/polytack/index.html" class="game-box" id="game6">
+            <img src="images/polytack.png" alt="Polytack">
+        </a>
+        <a href="games/slope/index.html" class="game-box" id="game7">
+            <img src="images/slope.png" alt="Slope">
+        </a>
+        <a href="games/fnf/index.html" class="game-box" id="game8">
+            <img src="images/fnf.png" alt="Friday Night Funkin'">
+        </a>
+        <a href="games/alienhominid/index.html" class="game-box" id="game9">
+            <img src="images/hominid.png" alt="Alien Hominid">
+        </a>
     </div>
+
+    <script>
+        const gameBoxes = document.querySelectorAll('.game-box');
+        let selectedIndex = 0;
+
+        function updateSelection() {
+            gameBoxes.forEach((box, index) => {
+                box.classList.remove('selected');
+                if (index === selectedIndex) {
+                    box.classList.add('selected');
+                }
+            });
+        }
+
+        // Arrow key navigation
+        window.addEventListener('keydown', (event) => {
+            if (event.key === 'ArrowRight') {
+                selectedIndex = (selectedIndex + 1) % gameBoxes.length;
+            } else if (event.key === 'ArrowLeft') {
+                selectedIndex = (selectedIndex - 1 + gameBoxes.length) % gameBoxes.length;
+            }
+            updateSelection();
+        });
+
+        // Enter key to navigate to the selected game's link
+        window.addEventListener('keydown', (event) => {
+            if (event.key === 'Enter') {
+                const selectedGameBox = gameBoxes[selectedIndex];
+                window.location.href = selectedGameBox.href;
+            }
+        });
+
+        // Optional: Automatically scroll the center box into view
+        function centerGame() {
+            gameBoxes[selectedIndex].scrollIntoView({
+                behavior: 'smooth',
+                block: 'center',
+                inline: 'center'
+            });
+        }
+
+        // Update center on selection change
+        window.addEventListener('keydown', centerGame);
+
+        // Initial selection
+        updateSelection();
+    </script>
 </body>
 
 </html>
