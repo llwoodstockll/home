@@ -26,12 +26,20 @@
         .game-container {
             display: flex;
             align-items: center;
-            justify-content: center;
-            overflow-x: auto;
+            justify-content: flex-start;
+            overflow-x: scroll;
+            overflow-y: hidden; /* Prevent vertical scrolling */
             width: 100%;
             height: 100%;
             scroll-snap-type: x mandatory;
-            padding: 0 50px;
+            padding: 0 20px;
+            gap: 10px; /* Add spacing between boxes */
+            scrollbar-width: none; /* Hide scrollbar for Firefox */
+        }
+
+        /* Hide scrollbar for WebKit browsers */
+        .game-container::-webkit-scrollbar {
+            display: none;
         }
 
         /* Individual game box styling */
@@ -40,15 +48,14 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 275px; /* Increased box height */
-            width: 275px; /* Increased box width */
+            height: 150px; /* Smaller height */
+            width: 150px; /* Smaller width */
             border-radius: 10px; /* Rounded corners */
             text-decoration: none;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
             transition: transform 0.2s, box-shadow 0.2s;
             overflow: hidden; /* Ensures images fit within the box */
             scroll-snap-align: center;
-            margin: 0 10px;
         }
 
         /* Image styling for game boxes */
@@ -94,6 +101,18 @@
         <a href="games/alienhominid/index.html" class="game-box" id="game9">
             <img src="images/hominid.png" alt="Alien Hominid">
         </a>
+        <a href="games/sonic1/index.html" class="game-box" id="game10">
+            <img src="images/sonic1.png" alt="Sonic 1">
+        </a>
+        <a href="games/sonic2/index.html" class="game-box" id="game11">
+            <img src="images/sonic2.png" alt="Sonic 2">
+        </a>
+        <a href="games/sonic3/index.html" class="game-box" id="game12">
+            <img src="images/sonic3.png" alt="Sonic 3">
+        </a>
+        <a href="games/hellfiresaga/index.html" class="game-box" id="game13">
+            <img src="images/hellfire.png" alt="hellfiresaga">
+        </a>
     </div>
 
     <script>
@@ -107,27 +126,10 @@
                     box.classList.add('selected');
                 }
             });
+            centerGame();
         }
 
-        // Arrow key navigation
-        window.addEventListener('keydown', (event) => {
-            if (event.key === 'ArrowRight') {
-                selectedIndex = (selectedIndex + 1) % gameBoxes.length;
-            } else if (event.key === 'ArrowLeft') {
-                selectedIndex = (selectedIndex - 1 + gameBoxes.length) % gameBoxes.length;
-            }
-            updateSelection();
-        });
-
-        // Enter key to navigate to the selected game's link
-        window.addEventListener('keydown', (event) => {
-            if (event.key === 'Enter') {
-                const selectedGameBox = gameBoxes[selectedIndex];
-                window.location.href = selectedGameBox.href;
-            }
-        });
-
-        // Optional: Automatically scroll the center box into view
+        // Center the selected game box
         function centerGame() {
             gameBoxes[selectedIndex].scrollIntoView({
                 behavior: 'smooth',
@@ -136,8 +138,19 @@
             });
         }
 
-        // Update center on selection change
-        window.addEventListener('keydown', centerGame);
+        // Arrow key navigation
+        window.addEventListener('keydown', (event) => {
+            if (event.key === 'ArrowRight') {
+                selectedIndex = (selectedIndex + 1) % gameBoxes.length;
+                updateSelection();
+            } else if (event.key === 'ArrowLeft') {
+                selectedIndex = (selectedIndex - 1 + gameBoxes.length) % gameBoxes.length;
+                updateSelection();
+            } else if (event.key === 'Enter') {
+                const selectedGameBox = gameBoxes[selectedIndex];
+                window.location.href = selectedGameBox.href;
+            }
+        });
 
         // Initial selection
         updateSelection();
