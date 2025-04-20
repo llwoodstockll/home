@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Welcome to Solars Games</title>
     <style>
-        /* Body styling with a background image */
+        /* Body styling with a wild, colorful background */
         body {
             margin: 0;
             padding: 0;
@@ -14,12 +14,25 @@
             justify-content: center;
             align-items: center;
             height: 100vh;
-            background-image: url('images/Background.png'); /* Load Background.png */
-            background-size: cover; /* Ensure the image covers the entire viewport */
-            background-repeat: no-repeat; /* Prevent tiling */
-            background-position: center; /* Center the image */
-            font-family: Arial, sans-serif;
+            background: radial-gradient(circle, #ff6ec7, #ff9a8b, #ff677d, #d4a5a5, #2b5876);
+            background-size: 300% 300%;
+            animation: gradientMove 10s ease infinite;
+            font-family: 'Comic Sans MS', cursive, sans-serif;
             overflow: hidden;
+            color: white;
+        }
+
+        /* Create a gradient animation effect for the background */
+        @keyframes gradientMove {
+            0% {
+                background-position: 0% 50%;
+            }
+            50% {
+                background-position: 100% 50%;
+            }
+            100% {
+                background-position: 0% 50%;
+            }
         }
 
         /* Container for game boxes */
@@ -27,14 +40,13 @@
             display: flex;
             align-items: center;
             justify-content: flex-start;
-            overflow-x: scroll;
-            overflow-y: hidden; /* Prevent vertical scrolling */
-            width: 100%;
-            height: 100%;
+            overflow-x: auto;
+            width: 90%;
+            height: 80vh;
+            padding: 10px;
+            gap: 15px;
             scroll-snap-type: x mandatory;
-            padding: 0 20px;
-            gap: 10px; /* Add spacing between boxes */
-            scrollbar-width: none; /* Hide scrollbar for Firefox */
+            scrollbar-width: none;
         }
 
         /* Hide scrollbar for WebKit browsers */
@@ -42,32 +54,71 @@
             display: none;
         }
 
-        /* Individual game box styling */
+        /* Individual game box styling with wild hover effects */
         .game-box {
-            background-color: #000; /* Fallback background */
+            background-color: #000;
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 150px; /* Smaller height */
-            width: 150px; /* Smaller width */
-            border-radius: 10px; /* Rounded corners */
-            text-decoration: none;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-            transition: transform 0.2s, box-shadow 0.2s;
-            overflow: hidden; /* Ensures images fit within the box */
+            width: 20vw; /* Set width to 20% of the viewport width */
+            height: 20vw; /* Set height equal to width to maintain a square shape */
+            max-width: 180px; /* Max width for smaller screens */
+            max-height: 180px; /* Max height for smaller screens */
+            border-radius: 15px;
+            box-shadow: 0 10px 15px rgba(0, 0, 0, 0.3);
+            transition: transform 0.4s ease, box-shadow 0.4s ease, filter 0.4s ease;
+            overflow: hidden;
             scroll-snap-align: center;
+            cursor: pointer;
+            position: relative;
+        }
+
+        /* Wild hover effect - scale and neon glow */
+        .game-box:hover {
+            transform: scale(1.1);
+            box-shadow: 0 20px 30px rgba(0, 0, 0, 0.4);
+            filter: brightness(1.2);
         }
 
         /* Image styling for game boxes */
         .game-box img {
-            width: 100%; /* Make images fill the box */
+            width: 100%;
             height: 100%;
-            object-fit: cover; /* Ensure images cover the box properly */
+            object-fit: cover;
+            transition: opacity 0.3s ease;
         }
 
+        /* Add an opacity change on hover for the images */
+        .game-box:hover img {
+            opacity: 0.8;
+        }
+
+        /* Highlight the selected game box */
         .selected {
-            transform: scale(1.25); /* Make the center box larger */
-            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.4);
+            transform: scale(1.2);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.5);
+        }
+
+        /* Vibrant hover glow effect */
+        .game-box::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(45deg, #ff6ec7, #ff9a8b, #ff677d, #2b5876);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            z-index: 1;
+        }
+
+        .game-box:hover::after {
+            opacity: 0.6;
+        }
+
+        .game-box a {
+            text-decoration: none;
         }
     </style>
 </head>
